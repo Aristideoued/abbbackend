@@ -11,7 +11,7 @@ import com.abb.abb.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class UserController {

@@ -18,7 +18,9 @@ public class JwtUtils {
     private long jwtExpirationMs;
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        // 🔒 Décodage base64 pour s’assurer que la clé est bien interprétée
+        byte[] keyBytes = java.util.Base64.getDecoder().decode(jwtSecret);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateToken(String username) {
@@ -26,7 +28,7 @@ public class JwtUtils {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
